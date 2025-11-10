@@ -5,10 +5,13 @@ A downloader for batch download videos from iwara.tv by using .txt and bookmarks
 本脚本用于批量或单个保存 iwara.tv 的视频，仅需提供链接。目前仅支持 Windows 平台。
 
 ## 使用方法
+本 repo 需要 Python 3.10+
+
 1. 下载本 repo 的 .zip 副本并解压缩
 2. 在文件夹下执行 `pip install -r requirements.txt`
 3. 运行 `python iwara.py`
 4. 根据提示继续
+5. 视频默认保存在本 repo 文件夹下的 video 文件夹。您可以修改脚本第 13 行的 SAVE_DIR 变量来修改保存位置。
 
 ## 书签与 .txt 使用方法
 ### 如何使用书签？
