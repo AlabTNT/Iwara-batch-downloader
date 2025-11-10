@@ -221,9 +221,8 @@ def get_txt():
         print("ℹ️已处理并删除文本文件：",p.name)
     return urls
 
-def main(urls=[]):
+def main(urls=[],driver=None):
     print("=== Iwara 视频下载器 by AlabTNT ===")
-    driver=make_driver_headless()
     failed=[]
     print(f"🌟 开始批量下载，任务共有 {len(urls)} 个链接。预计需要时长：{len(urls)*1.5:.1f} 分钟")
     for url in urls:
@@ -254,35 +253,36 @@ def routing():
     print("   4(default). 同时从 .html 书签文件和 .txt 文件导入并下载 .json 中的链接")
     print("   5. 手动输入单个链接下载")
     print("   e/q/6. 退出程序")
-    
+    driver=make_driver_headless()
+
     while True:
         print("ℹ️ 请选择运行模式(1/2/3/4/5/6/e/q)：", end="")
         choice = input().strip()
         if choice == "1":
             print("✨ 模式：1（仅.json）")
             urls = readin(False)
-            main(urls)
+            main(urls, driver=driver)
         elif choice == "2":
             print("📝 模式：2（.html）")
             urls = readin(True)
-            main(urls)
+            main(urls, driver=driver)
         elif choice == "3":
             print("🕶️ 模式：3（.txt）")
             urls = get_txt()
-            main(urls)
+            main(urls, driver=driver)
         elif choice == "4":
             print("🎯 模式：4（.txt+.html）")
             urls = readin(True)
             urls += get_txt()
             urls = list(set(urls))
-            main(urls)
+            main(urls, driver=driver)
         elif choice == "5":
             print("😀 模式：5（手动）")
             while True:
                 print("ℹ️ 请输入 iwara.tv 视频链接，输入 exit 退出：", end="")
                 url = input().strip()
                 if "iwara.tv" in url:
-                    crawl_one(url)
+                    crawl_one(url, driver=driver)
                 elif url=="exit":
                     print("👋 退出手动输入模式。")
                     break
@@ -290,11 +290,11 @@ def routing():
                     print("⚠️ 输入的链接无效。")
         elif choice in ["e", "q", "6"]:
             print("👋 退出程序。")
+            if driver:
+                driver.quit()
             return
         else:
             print("❌ 无效选择，请重试。")
             
-        
-        
 if __name__ == "__main__":
     routing()
